@@ -1,0 +1,30 @@
+$ts_tutorial_header_logo $ts_numl
+	dom_name \nu-flex
+	attr *
+		radius \none
+		display \flex
+		flow \row
+		gap \1
+		items \center
+	sub /
+		<= svg_logo $ts_numl
+			attr *
+				theme \blue
+				fill \
+				color \
+				padding \20px 0px 20px 32px
+				width \61px
+				height \40px
+				src \ts/tutorial/header/logo/logo.svg
+		<= line_divider $ts_numl
+			attr *
+				orient \v
+				height \24px
+				width \1px
+				place \center
+		<= svg_github $ts_numl
+			attr *
+				theme \blue swap
+				width \24px
+				height \23px
+				src \ts/tutorial/header/logo/github.svg

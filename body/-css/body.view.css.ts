@@ -1,0 +1,3 @@
+namespace $ { $mol_style_attach( "ts/tutorial/body/body.view.css",
+ "[ts_splitter_hor_divider] {\n\theight: 100%;\n\twidth: 84px;\n\tborder: 1px solid #ebebeb;\n\tbackground-color: white;\n\tbox-shadow: inset 1px 0px 0px #ebebeb;\n\topacity: 1;\n\tjustify-self: center;\n\talign-self: center;\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n}\n\n[ts_splitter_hor_view] {\n\ttransform: rotate(90deg);\n\tdisplay: table;\n}\n[ts_tutorial_body_splitter] {\n\theight: 100%;\n\twidth: 100%;\n\tdisplay: flex;\n}\n"
+) }

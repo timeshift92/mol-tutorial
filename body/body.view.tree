@@ -1,0 +1,31 @@
+$ts_tutorial_body $ts_numl
+	sub / 
+		<= splitter $ts_resizer_hor
+			pages /
+				<= First $mol_view
+					title <= first_title $ts_tutorial_divider title \first
+					sub / \first
+				<= Second $mol_view
+					title <= second_title $ts_tutorial_divider title \second
+					sub / \second
+				<= Third $mol_view
+					title <= third_title $ts_tutorial_divider title \third
+					sub / \third
+				<= Fourth $mol_view
+$ts_tutorial_divider $ts_numl
+	dom_name \nu-flex
+	title \
+	attr *
+		content \start
+		padding \top 5
+		height \100%
+		gap \1
+		flow \column
+	sub / 
+		<= icon $ts_numl
+			attr *
+				name \align-justify
+		<= el_one $ts_numl
+			attr *
+				transform \rotate(90deg)
+			sub / <= title

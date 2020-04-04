@@ -1,0 +1,57 @@
+$ts_tutorial_header $ts_numl
+	dom_name \nu-card
+	attr *
+		theme \blue tint bold
+		padding \0
+		radius \none
+		display \flex | none | none
+		flow \row
+	sub /
+		<= flex_left $ts_numl
+			attr *
+				content \space-between
+				border \right
+				width \clamp(320px,320px,100%)
+				items \center
+			sub /
+				<= Logo $ts_tutorial_header_logo
+				
+				<= Language $ts_select
+					items /
+						\En
+						\Ru
+		<= btngroup_navgitaion $ts_numl
+			attr *
+				
+				radius \none
+				display \flex
+				height \100%
+			sub /
+				<= attrs_btn $ts_numl
+					attr *
+						for \nu-btn
+						radius \none
+						border \none
+						shadow \ :hover[none] none
+						theme \ :pressed[blue swap bold] blue tint
+						size \2.5x
+				<= btn_guide $ts_numl
+					attr *
+						value \guide
+					sub / \Guide
+				<= btn_tutorials $ts_numl
+					attr *
+						value \tutorials
+					sub / \Tutorials
+				<= btn_examples $ts_numl
+					attr *
+						value \examples
+					sub / \Examples
+				<= btn_blog $ts_numl
+					attr *
+						value \blog
+					sub / \Blog
+				<= btn_about $ts_numl
+					attr *
+						value \about
+					sub / \About

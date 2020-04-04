@@ -1,0 +1,64 @@
+$ts_tutorial_layout $ts_numl
+	dom_name \nu-block
+	attr *
+		responsive \960px|800px|640px
+		nu-id \root
+		id \roo
+		width \100%
+		height \100%
+	sub /
+		<= theme_main $ts_numl
+			attr *
+				hue \272
+		<= theme_blue $ts_numl
+			attr *
+				name \blue
+				from \#0859A1
+				saturation \100
+				mod \dim
+		<= theme_green $ts_numl
+			attr *
+				name \green
+				hue \154	
+				mod \dim	
+		<= theme_orange $ts_numl
+			attr *
+				name \orange
+				hue \45	
+				mod \dim
+		<= theme_purple $ts_numl
+			attr *
+				name \purple
+				hue \301	
+				mod \dim
+		<= theme_lime $ts_numl
+			attr *
+				name \lime
+				hue \96	
+				mod \dim			
+		<= theme_red $ts_numl
+			attr *
+				name \red
+				hue \1	
+				mod \dim
+		<= attrs_section $ts_numl
+			attr *
+				role \article
+				for \section
+				display \flex
+				gap \4x
+				flow \column
+				width \100%
+				fill \bg :even[subtle]"
+				items \center
+				padding \8x 2x || 4x 2x
+		<= attrs_block $ts_numl
+			attr *
+				for \block
+				width \clamp(initial, 100%, 980px)
+		<= attrs_bold $ts_numl
+			attr *
+				for \bold
+				text \w6
+				force \
+		<= items $mol_view

@@ -1,0 +1,23 @@
+[ts_splitter_hor_divider] {
+	height: 100%;
+	width: 84px;
+	border: 1px solid #ebebeb;
+	background-color: white;
+	box-shadow: inset 1px 0px 0px #ebebeb;
+	opacity: 1;
+	justify-self: center;
+	align-self: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+[ts_splitter_hor_view] {
+	transform: rotate(90deg);
+	display: table;
+}
+[ts_tutorial_body_splitter] {
+	height: 100%;
+	width: 100%;
+	display: flex;
+}
