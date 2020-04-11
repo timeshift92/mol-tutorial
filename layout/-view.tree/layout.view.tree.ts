@@ -68,7 +68,7 @@ namespace $ { export class $ts_tutorial_layout extends $ts_numl {
 	 *  ```
 	 *  theme_blue $ts_numl attr *
 	 *  	name \blue
-	 *  	from \#0859A1
+	 *  	hue \#3a8ccb
 	 *  	saturation \100
 	 *  	mod \dim
 	 *  ```
@@ -78,7 +78,7 @@ namespace $ { export class $ts_tutorial_layout extends $ts_numl {
 		return (( obj )=>{
 			obj.attr = () => ({
 			"name" :  "blue" ,
-			"from" :  "#0859A1" ,
+			"hue" :  "#3a8ccb" ,
 			"saturation" :  "100" ,
 			"mod" :  "dim" ,
 		})

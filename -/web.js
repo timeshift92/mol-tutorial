@@ -2333,7 +2333,7 @@ var $;
             return ((obj) => {
                 obj.attr = () => ({
                     "name": "blue",
-                    "from": "#0859A1",
+                    "hue": "#3a8ccb",
                     "saturation": "100",
                     "mod": "dim",
                 });
@@ -3544,138 +3544,6 @@ var $;
     $.$mol_style_attach("ts/resizer/hor/hor.view.css", "[mol_resizer_ver] {\n\tdisplay: flex;\n\twidth: 100%;\n}\n");
 })($ || ($ = {}));
 //hor.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $ts_tutorial_body extends $.$ts_numl {
-        sub() {
-            return [this.splitter()];
-        }
-        splitter() {
-            return ((obj) => {
-                obj.pages = () => [this.First(), this.Second(), this.Third(), this.Fourth()];
-                return obj;
-            })(new this.$.$ts_resizer_hor());
-        }
-        First() {
-            return ((obj) => {
-                obj.title = () => this.first_title();
-                obj.sub = () => ["first"];
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        first_title() {
-            return ((obj) => {
-                obj.title = () => "first";
-                return obj;
-            })(new this.$.$ts_tutorial_divider());
-        }
-        Second() {
-            return ((obj) => {
-                obj.title = () => this.second_title();
-                obj.sub = () => ["second"];
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        second_title() {
-            return ((obj) => {
-                obj.title = () => "second";
-                return obj;
-            })(new this.$.$ts_tutorial_divider());
-        }
-        Third() {
-            return ((obj) => {
-                obj.title = () => this.third_title();
-                obj.sub = () => ["third"];
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        third_title() {
-            return ((obj) => {
-                obj.title = () => "third";
-                return obj;
-            })(new this.$.$ts_tutorial_divider());
-        }
-        Fourth() {
-            return ((obj) => {
-                return obj;
-            })(new this.$.$mol_view());
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "splitter", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "First", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "first_title", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "Second", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "second_title", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "Third", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "third_title", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_body.prototype, "Fourth", null);
-    $.$ts_tutorial_body = $ts_tutorial_body;
-})($ || ($ = {}));
-(function ($) {
-    class $ts_tutorial_divider extends $.$ts_numl {
-        dom_name() {
-            return "nu-flex";
-        }
-        title() {
-            return "";
-        }
-        attr() {
-            return ({
-                "content": "start",
-                "padding": "top 5",
-                "height": "100%",
-                "gap": "1",
-                "flow": "column",
-            });
-        }
-        sub() {
-            return [this.icon(), this.el_one()];
-        }
-        icon() {
-            return ((obj) => {
-                obj.attr = () => ({
-                    "name": "align-justify",
-                });
-                return obj;
-            })(new this.$.$ts_numl());
-        }
-        el_one() {
-            return ((obj) => {
-                obj.attr = () => ({
-                    "transform": "rotate(90deg)",
-                });
-                obj.sub = () => [this.title()];
-                return obj;
-            })(new this.$.$ts_numl());
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_divider.prototype, "icon", null);
-    __decorate([
-        $.$mol_mem
-    ], $ts_tutorial_divider.prototype, "el_one", null);
-    $.$ts_tutorial_divider = $ts_tutorial_divider;
-})($ || ($ = {}));
-//body.view.tree.js.map
 ;
 "use strict";
 var $;

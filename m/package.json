@@ -1,5 +1,5 @@
 {
-  "name": "ts_tutorial",
+  "name": "my_tutorial",
   "version": "0.0.1",
   "main": "node.js",
   "module": "node.esm.js",
@@ -7,6 +7,8 @@
   "types": "web.d.ts",
   "dependencies": {
     "jsdom": "*",
+    "node-fetch": "*",
+    "chokidar": "*",
     "colorette": "*"
   }
 }

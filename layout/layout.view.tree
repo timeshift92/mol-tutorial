@@ -13,7 +13,7 @@ $ts_tutorial_layout $ts_numl
 		<= theme_blue $ts_numl
 			attr *
 				name \blue
-				from \#0859A1
+				hue \#3a8ccb
 				saturation \100
 				mod \dim
 		<= theme_green $ts_numl
