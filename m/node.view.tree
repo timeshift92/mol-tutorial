@@ -163,14 +163,14 @@ $my_tutorial_header_logo $mol_view
 						<= Svg $mol_view
 							sub / <= logo_url
 						<= Image_logo $mol_image
-							uri <= image_logo \mol-tutorial/m/my/tutorial/header/logo/logo.svg
+							uri <= image_logo \my/tutorial/header/logo/logo.svg
 				<= Divider $mol_view
 					sub / \
 				<= Github $mol_link
 					uri \
 					sub /
 						<= Image_github $mol_image
-							uri <= image_github \mol-tutorial/m/my/tutorial/header/logo/github.svg
+							uri <= image_github \my/tutorial/header/logo/github.svg
 		<= Language $mol_select
 			Filter null
 			value?val <=> language?val \En

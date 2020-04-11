@@ -5222,7 +5222,7 @@ var $;
             })(new this.$.$mol_image());
         }
         image_logo() {
-            return "mol-tutorial/m/my/tutorial/header/logo/logo.svg";
+            return "my/tutorial/header/logo/logo.svg";
         }
         Divider() {
             return ((obj) => {
@@ -5244,7 +5244,7 @@ var $;
             })(new this.$.$mol_image());
         }
         image_github() {
-            return "mol-tutorial/m/my/tutorial/header/logo/github.svg";
+            return "my/tutorial/header/logo/github.svg";
         }
         Language() {
             return ((obj) => {
