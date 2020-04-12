@@ -3017,19 +3017,21 @@ var $;
     (function ($$) {
         class $ts_grip extends $.$ts_grip {
             pos_y(val) {
-                return (val !== void 0) ? val : NaN;
+                return (val !== void 0) ? val : null;
             }
             pos_x(val) {
-                return (val !== void 0) ? val : NaN;
+                return (val !== void 0) ? val : null;
             }
             move(node, callback = (event) => {
-                this.pos_x(event.pageX);
-                this.pos_y(event.pageY);
+                this.pos_x({ event, postion: event.clientX, is_left: event.pageX < this.current_x });
+                this.pos_y({ postion: event.clientY, is_top: event.pageY > this.current_y });
             }) {
                 const pointerdown = (event) => {
                     if (event.which !== 1)
                         return;
                     event.preventDefault();
+                    this.current_x = event.pageX;
+                    this.current_y = event.pageY;
                     const onpointerup = (_event) => {
                         window.removeEventListener('pointermove', callback, false);
                         window.removeEventListener('pointerup', onpointerup, false);
@@ -3097,14 +3099,45 @@ var $;
     var $$;
     (function ($$) {
         class $ts_splitter_hor extends $.$ts_splitter_hor {
+            constructor() {
+                super(...arguments);
+                this.once = false;
+            }
             size(val) {
                 return (val !== void 0) ? val : 0;
             }
             set_style_for_sibling(sibling, val) {
                 this.sibling(sibling).style['width'] = val;
             }
+            pos(val) {
+                return (val !== void 0) ? val : 0;
+            }
+            current_direction(val) {
+                return val;
+            }
+            direction(pos) {
+                let direction = '';
+                if (this.pos() > pos) {
+                    direction = 'left';
+                    this.current_direction(direction);
+                }
+                else if (this.pos() < pos) {
+                    direction = 'right';
+                    this.current_direction(direction);
+                }
+                if (this.pos() === pos) {
+                    direction = this.current_direction();
+                }
+                this.pos(pos);
+                if (!direction) {
+                    console.log(this.pos());
+                    console.log(pos);
+                }
+                return direction;
+            }
             pos_x(val) {
-                this.setPos(val, 'horizontal');
+                this.setPos(val.postion, val.is_left ? 'left' : 'right');
+                val.event.preventDefault();
             }
             clamp(num, min, max) {
                 return num < min ? min : num > max ? max : num;
@@ -3115,6 +3148,19 @@ var $;
             sibling(sibling) {
                 return this.dom_node()[`${sibling}ElementSibling`];
             }
+            innvalidate(node) {
+            }
+            getAllSiblings(node, filter = () => { }) {
+                var sibs = [];
+                node = node.parentNode.firstChild;
+                do {
+                    if (node.nodeType === 3)
+                        continue;
+                    if (!filter || filter(node))
+                        sibs.push(node);
+                } while (node = node.nextSibling);
+                return sibs;
+            }
             min_width_node(sibling) {
                 const tmp = this.sibling(sibling).style.width;
                 this.sibling(sibling).style.width = 'auto';
@@ -3122,24 +3168,89 @@ var $;
                 this.sibling(sibling).style.width = tmp;
                 return min_width;
             }
-            setPos(pos, type) {
+            setPos(pos, direction) {
                 const main = this.dom_node().parentNode.clientWidth;
                 const { top, left } = this.sibling('previous').getBoundingClientRect();
-                const { right, width } = this.sibling('next').getBoundingClientRect();
+                let checkDivNode = this.dom_node();
+                let hasDivider = false;
+                while (checkDivNode = checkDivNode.nextSibling) {
+                    if (checkDivNode.hasAttribute('ts_splitter_hor_divider') || checkDivNode.hasAttribute('ts_splitter_ver_divider')) {
+                        hasDivider = true;
+                        break;
+                    }
+                }
+                ;
+                direction = this.direction(pos);
+                let right, width;
+                if (hasDivider) {
+                    right = this.sibling('previous').getBoundingClientRect().right;
+                    width = this.sibling('previous').getBoundingClientRect().width;
+                }
+                else {
+                    right = this.sibling('next').getBoundingClientRect().right;
+                    width = this.sibling('next').getBoundingClientRect().width;
+                }
                 const min_width_left = 0;
                 const min_width_right = 0;
                 let rect_size = right - left;
-                const percentage = (rect_size / main) * 100;
-                const px = pos - top;
-                const calculated1 = this.clamp(px - left, min_width_left, rect_size) + 3;
-                this.set_style_for_sibling('previous', `${(calculated1 / rect_size) * percentage}%`);
-                const calculated2 = this.clamp(rect_size - (px - left), min_width_right, rect_size) + 3;
-                this.set_style_for_sibling('next', `${(calculated2 / rect_size) * percentage}%`);
+                if (!this.size()) {
+                    this.size(rect_size);
+                }
+                else {
+                    rect_size = this.size();
+                }
+                const percentage = (rect_size / (main - 84)) * 100;
+                const px = pos - this.dom_node().parentNode.getBoundingClientRect().left;
+                if (direction == 'left' && this.sibling('previous').getBoundingClientRect().width < 0.5) {
+                    let elem = this.sibling('previous');
+                    while (elem = elem.previousSibling) {
+                        if (!elem.hasAttribute('ts_splitter_hor_divider') && !elem.hasAttribute('ts_splitter_ver_divider')) {
+                            if (parseFloat(elem.style.width) >= 1) {
+                                elem.style.width = parseFloat(elem.style.width) - 0.1 + '%';
+                                break;
+                            }
+                        }
+                        if (elem.clientWidth <= 20) {
+                            this.sibling('previous').style.display = 'none';
+                        }
+                    }
+                    ;
+                }
+                if (this.sibling('previous').style.display == 'none' && direction == 'right') {
+                    this.sibling('previous').style.display = 'block';
+                }
+                else if (this.sibling('previous').clientWidth <= 20) {
+                    let elem = this.sibling('previous');
+                    while (elem = elem.previousSibling) {
+                        if (elem.clientWidth <= 20) {
+                            elem.style.display = 'none';
+                        }
+                    }
+                    ;
+                    this.sibling('previous').style.display = 'none';
+                }
+                else {
+                    this.sibling('previous').style.display = 'block';
+                }
+                const calculated1 = this.clamp(px - left, min_width_left, rect_size);
+                var pr1 = (calculated1 / rect_size) * percentage;
+                this.set_style_for_sibling('previous', `${pr1}%`);
+                if (!hasDivider) {
+                    const calculated2 = this.clamp(rect_size - calculated1, min_width_right, rect_size);
+                    var pr2 = (calculated2 / rect_size) * percentage;
+                    this.set_style_for_sibling('next', `${pr2}%`);
+                }
             }
         }
         __decorate([
             $.$mol_mem
         ], $ts_splitter_hor.prototype, "size", null);
+        __decorate([
+            $.$mol_mem
+        ], $ts_splitter_hor.prototype, "pos", null);
+        __decorate([
+            $.$mol_mem
+        ], $ts_splitter_hor.prototype, "current_direction", null);
         $$.$ts_splitter_hor = $ts_splitter_hor;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -3242,150 +3353,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_splitter_ver extends $.$mol_grip {
-        type() {
-            return "vertical";
-        }
-        Sub() {
-            return this.Divider();
-        }
-        Divider() {
-            return ((obj) => {
-                obj.sub = () => [""];
-                return obj;
-            })(new this.$.$mol_view());
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_splitter_ver.prototype, "Divider", null);
-    $.$mol_splitter_ver = $mol_splitter_ver;
-})($ || ($ = {}));
-//ver.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_splitter_ver extends $.$mol_splitter_ver {
-            set_style_for_sibling(node, val) {
-                this.dom_node()[`${node}ElementSibling`].style['height'] = val;
-            }
-            pos_y(val) {
-                this.setPos(val, 'vertical');
-            }
-            clamp(num, min, max) {
-                return num < min ? min : num > max ? max : num;
-            }
-            node() {
-                return this.dom_node().parentNode;
-            }
-            min_height_node(sibling) {
-                const tmp = this.dom_node()[`${sibling}ElementSibling`].style.height;
-                this.dom_node()[`${sibling}ElementSibling`].style.height = 'auto';
-                const min_height = this.dom_node()[`${sibling}ElementSibling`].clientHeight;
-                this.dom_node()[`${sibling}ElementSibling`].style.height = tmp;
-                return min_height;
-            }
-            setPos(pos, type) {
-                const main = this.dom_node().parentNode.clientHeight;
-                const { top, left } = this.dom_node()[`previousElementSibling`].getBoundingClientRect();
-                const { bottom, height } = this.dom_node()[`nextElementSibling`].getBoundingClientRect();
-                const min_height_top = this.min_height_node('previous');
-                const min_height_bottom = this.min_height_node('next');
-                let rect_size = bottom - top;
-                const percentage = (rect_size / main) * 100;
-                const px = pos - top;
-                if (bottom - px < 0 || bottom - px < min_height_bottom)
-                    return;
-                if (px - top < 0 || px - top < min_height_top)
-                    return;
-                const calculated1 = this.clamp(px - top, min_height_top, rect_size) + 3;
-                this.set_style_for_sibling('previous', `${(calculated1 / rect_size) * percentage}%`);
-                const calculated2 = this.clamp(rect_size - (px - top), min_height_bottom, rect_size) + 3;
-                this.set_style_for_sibling('next', `${(calculated2 / rect_size) * percentage}%`);
-            }
-            sub() {
-                this.dom_node().style['flex-direction'] = this.type() == 'horizontal' ? 'row' : 'column';
-                return [this.Divider()];
-            }
-        }
-        $$.$mol_splitter_ver = $mol_splitter_ver;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//ver.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/splitter/ver/ver.view.css", "[mol_splitter_ver_divider] {\n  padding: 3px 0px;\n  margin: -3px 0;\n  cursor: ns-resize;\n  opacity: 0;\n}\n[mol_splitter_ver] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n}\n");
-})($ || ($ = {}));
-//ver.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_resizer_ver extends $.$mol_view {
-        Divider(id) {
-            return ((obj) => {
-                return obj;
-            })(new this.$.$mol_splitter_ver());
-        }
-        pages() {
-            return [];
-        }
-        sub() {
-            return this.pages_wrapped();
-        }
-        pages_wrapped() {
-            return [];
-        }
-    }
-    __decorate([
-        $.$mol_mem_key
-    ], $mol_resizer_ver.prototype, "Divider", null);
-    $.$mol_resizer_ver = $mol_resizer_ver;
-})($ || ($ = {}));
-//ver.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_resizer_ver extends $.$mol_resizer_ver {
-            divider(id) {
-                return this.Divider(id);
-            }
-            pages_wrapped() {
-                let extended = [];
-                for (let i = 0; i < this.pages().length; i++) {
-                    extended.push(this.pages()[i]);
-                    if (i < this.pages().length - 1)
-                        extended.push(this.divider(i + 1));
-                }
-                return extended;
-            }
-        }
-        __decorate([
-            $.$mol_mem
-        ], $mol_resizer_ver.prototype, "pages_wrapped", null);
-        $$.$mol_resizer_ver = $mol_resizer_ver;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//ver.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/resizer/ver/ver.view.css", "[mol_resizer] * {\n  min-height: fit-content;\n}\n[mol_resizer_ver] {\n  display: flex;\n  height: 100%;\n  flex-direction: column;\n}\n");
-})($ || ($ = {}));
-//ver.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_splitter_hor extends $.$mol_grip {
         type() {
             return "horizontal";
@@ -3478,7 +3445,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $ts_resizer_hor extends $.$ts_numl {
+    class $ts_resizer_hor extends $.$mol_view {
         Divider(id, title, force) {
             return (title !== void 0) ? title : ((obj) => {
                 return obj;
@@ -3520,6 +3487,7 @@ var $;
                 var _a;
                 let extended = [];
                 for (let i = 0; i < this.pages().length; i++) {
+                    this.pages()[i].dom_node().style.width = (100 / this.pages().length) + '%';
                     extended.push(this.pages()[i]);
                     if (i < this.pages().length - 1)
                         extended.push(this.divider(i + 1, (_a = this.pages()[i]) === null || _a === void 0 ? void 0 : _a.title()));
@@ -3541,7 +3509,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("ts/resizer/hor/hor.view.css", "[mol_resizer_ver] {\n\tdisplay: flex;\n\twidth: 100%;\n}\n");
+    $.$mol_style_attach("ts/resizer/hor/hor.view.css", "[ts_resizer_hor] {\n\t/* display: flex; */\n\t/* width: 100%; */\n}\n\n[ts_resizer_hor] * {\n\ttransition: none;\n\toverflow: hidden;\n}\n\n");
 })($ || ($ = {}));
 //hor.view.css.js.map
 ;

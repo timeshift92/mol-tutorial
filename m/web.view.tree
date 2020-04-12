@@ -160,8 +160,6 @@ $my_tutorial_header_logo $mol_view
 				<= Logo $mol_link
 					uri \
 					sub /
-						<= Svg $mol_view
-							sub / <= logo_url
 						<= Image_logo $mol_image
 							uri <= image_logo \my/tutorial/header/logo/logo.svg
 				<= Divider $mol_view
@@ -340,43 +338,172 @@ $mol_svg_path $mol_svg
 $mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
 
 $my_tutorial_body $mol_view
+	attr * mol_theme \$mol_theme_auto
 	sub / 
 		<= Accordion $ts_accordion
-			title \accordion_1
-			content / 
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
+			title @ \Contents
+			head @ \Contents
+			content <= cnt_1 $mol_view
+				sub /
+					<= cnt_1_content_1 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
+					<= cnt_1_content_2 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
+					<= cnt_1_content_3 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
 		<= Accordion2 $ts_accordion
-			title \accordion_2
-			content / 
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
-				\asdgasdgasdgasdgasdgasd
+			title @ \News
+			head @ \News
+			content <= cnt_2 $mol_view
+				sub /
+					<= cnt_2_content_1 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
+					<= cnt_2_content_2 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
+					<= cnt_2_content_3 $my_tutorial_body_accordion_content
+						image \my/tutorial/body/img.png
+						header \The History of Photo
+						content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+						author_name \authorname
+						date \May 9, 2019
+		<= Content $mol_view
+			sub /
+				<= Content_body $mol_view
+					sub /
+						<= Header $mol_view
+							sub /
+								<= Title $mol_view
+									sub / \$mol_app_calc: вечеринка электронных таблиц
+								<= Author $mol_view
+									sub /
+										<= Author_Image $mol_image
+											uri <= image \my/tutorial/body/avatar.png
+										<= Author_name \nin-jin
+								<= Date $mol_view
+									sub / \25 Sep 2017
+						<= Body $mol_view
+							sub /
+								<= Body_content $mol_view
+									sub /
+										\Здравствуйте, меня зовут Дмитрий Карловский и я.. обожаю математику. Однажды мне не спалось и я запилил сервис для таких же отбитых как и я - легковесную электронную таблицу с пользовательскими формулами, шарингом и скачиванием.
+										\
+										\
+										\Живой пример с расчётом кредита:
+										\
+								<= body_image $mol_image
+									uri \my/tutorial/body/content_image.png
+				
+				<= Accordion3 $ts_accordion
+					title @ \Comments
+					head @\Comments
+					content <= cnt_3 $mol_view
+						sub /
+							<= content_1 $my_tutorial_body_accordion_content
+								image \my/tutorial/body/img.png
+								header \The History of Photo
+								content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+								author_name \authorname
+								date \May 9, 2019
+							<= content_2 $my_tutorial_body_accordion_content
+								image \my/tutorial/body/img.png
+								header \The History of Photo
+								content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+								author_name \authorname
+								date \May 9, 2019
+							<= content_3 $my_tutorial_body_accordion_content
+								image \my/tutorial/body/img.png
+								header \The History of Photo
+								content \We are passionate about photography and creative art forms. Our photo studio provides you with endless possibilities to create your photo.
+								author_name \authorname
+								date \May 9, 2019
+
+$my_tutorial_body_accordion_content $mol_view
+	image null
+	header \
+	content $mol_view
+	author_name \
+	date null
+	sub /
+		<= Image $mol_image
+			uri <= image
+		<= Head $mol_view
+			sub / 
+				<= header
+		<= Content $mol_view
+			sub /
+				<= content
+		<= Author $mol_view
+			sub /
+				<= author_name
+		<= Date $mol_view 
+			sub /
+				<= date
+
+
+
+$mol_page $mol_view
+	sub /
+		<= Head $mol_view
+			attr * mol_theme \$mol_theme_base
+			sub <= head /
+				<= Title $mol_button
+					sub /
+						<= title
+					event_click?val <=> event_top?val null
+				<= Tools $mol_view
+					sub <= tools /$mol_view_content
+		<= Body $mol_scroll
+			scroll_top?val <=> body_scroll_top?val 0
+			sub <= body /$mol_view_content
+		<= Foot $mol_view
+			attr * mol_theme \$mol_theme_base
+			sub <= foot /$mol_view
 
 $ts_accordion $mol_view
 	title \
+	head \
 	sub /
-		<= divider $ts_accordion_divider 
+		<= Body $mol_section
+			attr *
+				open false
+			head / <= head
+			Content <= content $mol_view
+		<= Divider $ts_accordion_divider 
 			event *
 				click?event <=> toggle?event null
-			title <= title
-		<= body $mol_view 
-			sub / 
-				<= content /$mol_view 
-
-
+			title <= title 
 $ts_accordion_divider $mol_view
 	event *
 		click?event <=> toggle?event null
 	title \
 	sub / 
 		<= Icon $mol_view
-			sub / 
-				<= Icon_bar $mol_view
-		<= el_one $mol_view
+			sub /
+				<= Bar $mol_view
+		<= Title $mol_view
 			sub / <= title
+
+$mol_section $mol_list rows /
+	<= Head $mol_view
+		sub <= head /
+	<= Content null

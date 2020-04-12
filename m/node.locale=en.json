@@ -1,4 +1,7 @@
 {
 	"$mol_select_hint": "Search..",
-	"$mol_select_no_options_message": "No options"
+	"$mol_select_no_options_message": "No options",
+	"$my_tutorial_body_Accordion": "Contents",
+	"$my_tutorial_body_Accordion2": "News",
+	"$my_tutorial_body_Accordion3": "Comments"
 }
